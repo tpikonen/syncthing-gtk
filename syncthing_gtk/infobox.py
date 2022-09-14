@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - InfoBox
 
@@ -27,6 +27,7 @@ class InfoBox(Gtk.Container):
 		# doubleclick, no arguments
 		"doubleclick"	: (GObject.SIGNAL_RUN_FIRST, None, () )
 	}
+	
 	### Initialization
 	def __init__(self, app, title, icon):
 		# Variables

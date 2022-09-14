@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - Ident Icon
 
@@ -62,9 +62,9 @@ class IdentIcon(Gtk.DrawingArea):
 		# Prepare stuff
 		allocation	= self.get_allocation()
 		rect_size	= min(allocation.width, allocation.height) / self.size
-		offset_x	= (allocation.width / 2) - (rect_size * self.size / 2)
-		offset_y	= (allocation.height / 2) - (rect_size * self.size / 2)
-		middle_col	= int(self.size / 2)
+		offset_x	= (allocation.width // 2) - (rect_size * self.size // 2)
+		offset_y	= (allocation.height // 2) - (rect_size * self.size // 2)
+		middle_col	= self.size // 2
 		
 		# Set color
 		cr.set_source_rgba(*self.color)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - RIBar
 
@@ -29,7 +29,7 @@ class RIBar(RevealerClass):
 		"response"	: (GObject.SIGNAL_RUN_FIRST, None, (int,)),
 		"close"	: (GObject.SIGNAL_RUN_FIRST, None, ()),
 	}
-	
+
 	### Initialization
 	def __init__(self, label, message_type=Gtk.MessageType.INFO, *buttons):
 		"""
@@ -103,7 +103,7 @@ class RIBar(RevealerClass):
 	
 	def close_on_close(self):
 		"""
-		Setups revealer so it will be automaticaly closed, removed and
+		Setups revealer so it will be automatically closed, removed and
 		destroyed when user clicks to any button, including 'X'
 		"""
 		self.connect("close", self.close)
@@ -141,7 +141,7 @@ class RIBar(RevealerClass):
 	
 	@staticmethod
 	def build_button(label, icon_name=None, icon_widget=None, use_stock=False):
-		""" Builds button situable for action area """
+		""" Builds button suitable for action area """
 		b = Gtk.Button.new_from_stock(label) if use_stock \
 			else Gtk.Button.new_with_label(label)
 		b.set_use_underline(True)

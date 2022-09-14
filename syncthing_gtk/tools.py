@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - tools
 
@@ -7,6 +7,7 @@ Various stuff that I don't care to fit anywhere else.
 
 
 from typing import Dict, Any
+from gettext import gettext as _
 from base64 import b32decode
 from datetime import tzinfo, timedelta
 from subprocess import Popen
@@ -55,10 +56,6 @@ portable_mode_enabled = False
 if IS_WINDOWS:
 	# On Windows, WMI and pywin32 libraries are reqired
 	import wmi, winreg
-
-""" Localization lambdas """
-_ = lambda a: _uc(gettext.gettext(a))
-_uc = lambda b: b if type(b) == str else b.decode("utf-8")
 
 def luhn_b32generate(s):
 	"""
@@ -415,8 +412,7 @@ def get_executable():
 			cwd = os.getcwd()
 			executable = os.path.normpath(os.path.join(cwd, executable))
 		if executable.endswith(".py"):
-			import shlex
-			executable = "/usr/bin/env python2 %s" % (shlex.quote(executable),)
+			executable = "/usr/bin/env python3 %s" % (shlex.quote(executable),)
 		return executable
 
 def is_ran_on_startup(program_name):
@@ -490,7 +486,7 @@ def set_run_on_startup(enabled, program_name, executable, icon="", description="
 				# Already exists
 				pass
 			try:
-				with open(desktopfile, "w") as f:
+				with open(desktopfile, "w", encoding='utf-8') as f:
 					desktop_contents = DESKTOP_FILE % (program_name, executable, icon, description)
 					f.write(desktop_contents)
 			except Exception as e:

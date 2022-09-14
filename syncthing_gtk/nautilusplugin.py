@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Nautilus plugin for Syncthing.
 This program is part of Syncthing-GTK, but can be used independently
@@ -192,7 +192,7 @@ class NautiluslikeExtension(GObject.GObject):
 			if not file.get_location().get_path() is None:
 				return file.get_location().get_path()
 		return urllib.parse.unquote(file.get_uri().replace("file://", ""))
-	
+
 	### Daemon callbacks
 	def cb_connected(self, *a):
 		"""

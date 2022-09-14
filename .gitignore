@@ -4,6 +4,7 @@ syncthing.exe
 *.exe
 *.zip
 *.nupkg
+*.mo
 *.egg-info
 dist
 *.rpm

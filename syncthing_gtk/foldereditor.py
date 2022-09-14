@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - FolderEditorDialog
 
@@ -161,7 +161,7 @@ class FolderEditorDialog(EditorDialog):
 				self["vpath"].set_sensitive(False)
 				self["btBrowse"].set_sensitive(False)
 		except KeyError as e:
-			# ID not found in configuration. This is practicaly impossible,
+			# ID not found in configuration. This is practically impossible,
 			# so it's handled only by self-closing dialog.
 			log.exception(e)
 			self.close()

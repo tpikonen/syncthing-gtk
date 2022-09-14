@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - App
 
@@ -278,15 +278,15 @@ class App(Gtk.Application, TimerManager):
 			self.connect('handle-local-options', self.do_local_options)
 		else:
 			self.arguments = []
-		aso("window",	b"w", "Display window (don't start minimized)")
-		aso("minimized",b"m", "Hide window (start minimized)")
-		aso("header",	b"s", "Use classic window header")
-		aso("quit",		b"q", "Quit running instance (if any)")
-		aso("verbose",	b"v", "Be verbose")
-		aso("debug",	b"d", "Be more verbose (debug mode)")
-		aso("wizard",	b"1", "Run 'first start wizard' and exit")
-		aso("about",	b"a", "Display about dialog and exit")
-		aso("dump",		b"o", "Redirect captured daemon output to stdout")
+		aso("window",		ord('w'), "Display window (don't start minimized)")
+		aso("minimized",	ord('m'), "Hide window (start minimized)")
+		aso("header",		ord('s'), "Use classic window header")
+		aso("quit",			ord('q'), "Quit running instance (if any)")
+		aso("verbose",		ord('v'), "Be verbose")
+		aso("debug",		ord('d'), "Be more verbose (debug mode)")
+		aso("wizard",		ord('1'), "Run 'first start wizard' and exit")
+		aso("about",		ord('a'), "Display about dialog and exit")
+		aso("dump",			ord('o'), "Redirect captured daemon output to stdout")
 		aso("home", 0, "Overrides default syncthing configuration directory",
 				GLib.OptionArg.STRING)
 		aso("add-repo", 0,    "Opens 'add repository' dialog with specified path prefilled",
@@ -322,14 +322,10 @@ class App(Gtk.Application, TimerManager):
 	def setup_widgets(self):
 		self.builder = UIBuilder()
 		# Set conditions for UIBuilder
-		old_gtk = ((Gtk.get_major_version(), Gtk.get_minor_version()) < (3, 12)) and not IS_WINDOWS
-		icons_in_menu = self.config["icons_in_menu"]
 		if self.use_headerbar: 		self.builder.enable_condition("header_bar")
 		if not self.use_headerbar:	self.builder.enable_condition("traditional_header")
 		if IS_WINDOWS: 				self.builder.enable_condition("is_windows")
 		if IS_GNOME:  				self.builder.enable_condition("is_gnome")
-		if old_gtk:					self.builder.enable_condition("old_gtk")
-		if icons_in_menu:			self.builder.enable_condition("icons_in_menu")
 		# Fix icon path
 		self.builder.replace_icon_path("icons/", self.iconpath)
 		# Load glade file
@@ -351,12 +347,6 @@ class App(Gtk.Application, TimerManager):
 				self[item_id] = menuitem
 				submenu.add(menuitem)
 			self[limitmenu].show_all()
-		
-		if not old_gtk:
-			if not self["edit-menu-icon"] is None:
-				if not Gtk.IconTheme.get_default().has_icon(self["edit-menu-icon"].get_icon_name()[0]):
-					# If requested icon is not found in default theme, replace it with emblem-system-symbolic
-					self["edit-menu-icon"].set_from_icon_name("emblem-system-symbolic", self["edit-menu-icon"].get_icon_name()[1])
 		
 		# Set window title in way that even Gnome can understand
 		icon = os.path.join(self.iconpath, "syncthing-gtk.png")
@@ -1410,6 +1400,7 @@ class App(Gtk.Application, TimerManager):
 			# Reuse existing box
 			box = self.folders[id]
 			box.set_title(title)
+			box['menuitem'].set_label(title)
 		else:
 			# Create new box
 			box = InfoBox(self, title, Gtk.Image.new_from_icon_name("drive-harddisk", Gtk.IconSize.LARGE_TOOLBAR))
@@ -1443,6 +1434,12 @@ class App(Gtk.Application, TimerManager):
 			box.connect('doubleclick', self.cb_browse_folder)
 			box.connect('enter-notify-event', self.cb_box_mouse_enter)
 			box.connect('leave-notify-event', self.cb_box_mouse_leave)
+
+			menuitem = Gtk.MenuItem(label=title)
+			self["menu-si-folders-sub"].append(menuitem)
+			menuitem.show()
+			menuitem.connect('activate', self.cb_browse_folder_menu, box)
+			box.add_hidden_value("menuitem", menuitem)
 			self.folders[id] = box
 			self.folders_never_loaded = False
 		# Set values
@@ -1514,7 +1511,7 @@ class App(Gtk.Application, TimerManager):
 	
 	def clear(self):
 		""" Clears folder and device lists. """
-		for i in ('devicelist', 'folderlist'):
+		for i in ('devicelist', 'folderlist', 'menu-si-folders-sub'):
 			for c in [] + self[i].get_children():
 				self[i].remove(c)
 				c.destroy()
@@ -1880,6 +1877,10 @@ class App(Gtk.Application, TimerManager):
 		""" Handler for 'browse' folder context menu item """
 		self.cb_browse_folder(self.rightclick_box)
 		
+	def cb_browse_folder_menu(self, menuitem, box, *a):
+		""" Handler for folder status icon menu item """
+		self.cb_browse_folder(box)
+
 	def cb_browse_folder(self, box, *a):
 		""" Handler for 'browse' action """
 		path = os.path.expanduser(box["path"])

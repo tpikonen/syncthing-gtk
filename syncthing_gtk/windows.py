@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Syncthing-GTK - Windows related stuff.
 """
@@ -62,7 +62,7 @@ def nice_to_priority_class(nice):
 def override_menu_borders():
 	""" Loads custom CSS to create borders around popup menus """
 	style_provider = Gtk.CssProvider()
-	style_provider.load_from_data(b"""
+	style_provider.load_from_data("""
 		.menu {
 			border-image: linear-gradient(to top,
 										  alpha(@borders, 0.80),
@@ -183,14 +183,14 @@ def WinConfiguration():
 		
 		def _store(self, r, name, tp, value):
 			""" Stores value in registry, handling special types """
-			if tp in (str, str):
+			if tp == str:
 				winreg.SetValueEx(r, name, 0, winreg.REG_SZ, str(value))
 			elif tp in (int, bool):
 				value = int(value)
 				if value > 0xFFFF:
 					raise ValueError("Overflow")
 				if value < 0:
-					# This basicaly prevents storing anything >0xFFFF to registry.
+					# This basically prevents storing anything >0xFFFF to registry.
 					# Luckily, that shouldn't be needed, largest thing stored as int is 20
 					value = 0xFFFF + (-value)
 				winreg.SetValueEx(r, name, 0, winreg.REG_DWORD, int(value))
