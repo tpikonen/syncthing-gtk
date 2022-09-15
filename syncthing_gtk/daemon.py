@@ -354,7 +354,7 @@ class Daemon(GObject.GObject, TimerManager):
         try:
             tls = xml.getElementsByTagName("configuration")[0] \
                 .getElementsByTagName("gui")[0].getAttribute("tls")
-        except Exception as e:
+        except Exception:
             pass
         self._tls = False
         self._cert = None
@@ -385,7 +385,7 @@ class Daemon(GObject.GObject, TimerManager):
                 .getElementsByTagName("gui")[0] \
                 .getElementsByTagName("apikey")[0] \
                 .firstChild.nodeValue
-        except Exception as e:
+        except Exception:
             # API key can be none
             pass
 
@@ -1123,16 +1123,17 @@ class RESTRequest(Gio.SocketClient):
             return
         if self._parent._CSRFtoken is None and self._parent._api_key is None:
             # Request CSRF token first
-            log.verbose("Requesting cookie")
-            get_str = "\r\n".join([
-                "GET / HTTP/1.0",
-                "Host: %s" % self._parent._address,
-                (("X-API-Key: %s" % self._parent._api_key)
-                 if self._parent._api_key is not None else "X-nothing: x"),
-                "Connection: close",
-                "",
-                "",
-            ]).encode("utf-8")
+            # log.verbose("Requesting cookie")
+            # get_str = "\r\n".join([
+            #     "GET / HTTP/1.0",
+            #     "Host: %s" % self._parent._address,
+            #     (("X-API-Key: %s" % self._parent._api_key)
+            #      if self._parent._api_key is not None else "X-nothing: x"),
+            #     "Connection: close",
+            #     "",
+            #     "",
+            # ]).encode("utf-8")
+            pass
         else:
             self._send_request()
 
@@ -1239,7 +1240,7 @@ class RESTRequest(Gio.SocketClient):
             elif code != 200:
                 self._error(HTTPCode(code, response, buffer, headers))
                 return None, None
-        except Exception as e:
+        except Exception:
             # That probably wasn't HTTP
             import traceback
             traceback.print_exc()
@@ -1440,7 +1441,7 @@ class EventPollLoop(RESTRequest):
         ]).encode("utf-8")
         try:
             self._connection.get_output_stream().write_all(get_str, None)
-        except Exception as e:
+        except Exception:
             self._connection.close(None)
             return self.start()
         self._connection.get_input_stream().read_bytes_async(10, 1, None, self._chunk)

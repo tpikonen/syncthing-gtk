@@ -226,7 +226,7 @@ class UISettingsDialog(EditorDialog):
                     try:
                         # Create directory first
                         os.makedirs(os.path.dirname(target))
-                    except Exception as e:
+                    except Exception:
                         # Ignore "file already exists" error
                         pass
                     try:

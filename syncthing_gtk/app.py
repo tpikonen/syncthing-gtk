@@ -395,7 +395,7 @@ class App(Gtk.Application, TimerManager):
                     self.home_dir_override, "config.xml"))
             else:
                 self.daemon = Daemon()
-        except InvalidConfigurationException as e:
+        except InvalidConfigurationException:
             # Syncthing is not configured, most likely never launched.
             # Run wizard.
             if IS_XP:

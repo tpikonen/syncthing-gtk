@@ -4,7 +4,6 @@ Syncthing-GTK - Windows related stuff.
 """
 
 
-from syncthing_gtk.tools import get_config_dir
 from gi.repository import GLib, Gtk, Gdk
 import os
 import logging

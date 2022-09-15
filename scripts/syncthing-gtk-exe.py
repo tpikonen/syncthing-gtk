@@ -2,7 +2,6 @@
 # Note: this one is used by Windows
 import sys
 import os
-import winreg
 
 if __name__ == "__main__":
     portable = False
@@ -33,7 +32,7 @@ if __name__ == "__main__":
         os.environ["PATH"] = path
 
     import gi
-    import cairo
+    # import cairo
     gi.require_version('Gtk', '3.0')
     gi.require_version('Rsvg', '2.0')
 

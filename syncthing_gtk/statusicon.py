@@ -482,7 +482,7 @@ class StatusIconProxy(StatusIcon):
     def _load_fallback(self):
         if IS_KDE:
             status_icon_backends = [
-                StatusIconAppIndicator, StatusIconQt5, StatusIconDummy]
+                StatusIconAppIndicator, StatusIconDummy]
         else:
             status_icon_backends = [StatusIconAppIndicator, StatusIconDummy]
 

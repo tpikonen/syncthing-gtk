@@ -6,7 +6,6 @@ Do './build_windows.py build' to build exe, then call
 
 import pprint
 import os
-import site
 import sys
 import shutil
 import re
