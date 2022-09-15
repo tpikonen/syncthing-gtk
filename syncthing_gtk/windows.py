@@ -144,7 +144,7 @@ class WinPopenReader:
         return False
 
     def read_bytes_async(self, size, trash, cancel, callback, data=()):
-        if self._waits_for_read != None:
+        if self._waits_for_read is not None:
             raise Exception("Already reading")
         self._buffer_size = size
         self._waits_for_read = (callback, data)

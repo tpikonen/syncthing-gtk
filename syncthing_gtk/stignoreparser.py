@@ -20,7 +20,7 @@ def convert_ignore_patterns_to_regex(patterns):
     regexes = []
     for pattern in patterns:
         parsed_pattern = parse_ignore_pattern(pattern)
-        if not parsed_pattern == None:
+        if parsed_pattern is not None:
             regexes.append(parsed_pattern)
     return regexes
 

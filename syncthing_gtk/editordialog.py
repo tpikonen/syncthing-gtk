@@ -82,7 +82,7 @@ class EditorDialog(GObject.GObject):
 
     def __contains__(self, name):
         """ Returns true if there is such widget """
-        return self.builder.get_object(name) != None
+        return self.builder.get_object(name) is not None
 
     def get_widget_id(self, w):
         """
@@ -95,7 +95,7 @@ class EditorDialog(GObject.GObject):
 
     def find_widget_by_id(self, id, parent=None):
         """ Recursively searches for widget with specified ID """
-        if parent == None:
+        if parent is None:
             if id in self:
                 return self[id]  # Do things fast if possible
             parent = self["editor"]
@@ -285,7 +285,7 @@ class EditorDialog(GObject.GObject):
         if not self._loading:
             if key in self.SETTING_NEEDS_RESTART:
                 self[self.RESTART_NEEDED_WIDGET].set_visible(True)
-        if key != None:
+        if key is not None:
             if isinstance(w, Gtk.CheckButton):
                 self.set_value(strip_v(key), w.get_active())
                 self.update_special_widgets()

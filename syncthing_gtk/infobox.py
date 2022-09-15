@@ -389,9 +389,9 @@ class InfoBox(Gtk.Container):
         Converts color from AABBCC or #AABBCC format to tuple of floats
         """
         hx = hx.lstrip('#')
-        l = len(hx)
-        color = [float(int(hx[i:i+l//3], 16)) /
-                 255.0 for i in range(0, l, l//3)]
+        hlen = len(hx)
+        color = [float(int(hx[i:i + hlen // 3], 16)) /
+                 255.0 for i in range(0, hlen, hlen // 3)]
         while len(color) < 4:
             color.append(1.0)
         return color
@@ -460,7 +460,7 @@ class InfoBox(Gtk.Container):
 
     def set_bg_color(self, r, g, b, a):
         """ Expects floats """
-        if self.dark_color == None:
+        if self.dark_color is None:
             self.background = (r, g, b, a)
         col = Gdk.RGBA(r, g, b, a)
         for key in self.value_widgets:

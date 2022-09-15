@@ -271,7 +271,7 @@ class StDownloader(GObject.GObject):
         try:
             # Get response from async call
             response = stream.read_bytes_finish(result)
-            if response == None:
+            if response is None:
                 raise Exception("No data received")
             # 0b of data read indicates end of file
             if response.get_size() > 0:

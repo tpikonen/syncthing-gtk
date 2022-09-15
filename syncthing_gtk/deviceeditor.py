@@ -70,7 +70,7 @@ class DeviceEditorDialog(EditorDialog):
                 self.checks = {
                     "vdeviceID": check_device_id,
                 }
-                if self.id != None:
+                if self.id is not None:
                     # Pre-fill device id, if provided
                     self.set_value("deviceID", self.id)
             else:

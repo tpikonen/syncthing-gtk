@@ -343,7 +343,7 @@ class FindDaemonPage(Page):
                 dll_link = '<a href="https://github.com/syncthing/syncthing/releases">' + \
                     _('download latest binary') + '</a>'
                 message, title = "", None
-                if self.ignored_version == None:
+                if self.ignored_version is None:
                     # No binary was found
                     title = _("Syncthing daemon not found.")
                     message += _("Please, use package manager to install the Syncthing package "
@@ -773,7 +773,7 @@ class SaveSettingsPage(Page):
             au = xml.getElementsByTagName("configuration")[0] \
                 .getElementsByTagName("options")[0] \
                 .getElementsByTagName("autoUpgradeIntervalH")[0]
-            while gui.firstChild != None:
+            while gui.firstChild is not None:
                 gui.removeChild(gui.firstChild)
             # Update data
             self.ct_textnode(xml, gui, "address", "%s:%s" % (

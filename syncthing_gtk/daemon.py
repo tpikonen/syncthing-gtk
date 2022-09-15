@@ -584,7 +584,7 @@ class Daemon(GObject.GObject, TimerManager):
             return
 
         if self._my_id != data["myID"]:
-            if self._my_id != None:
+            if self._my_id is not None:
                 # Can myID be ever changed?
                 log.warning("My ID has been changed on the fly")
             self._my_id = data["myID"]
@@ -654,7 +654,7 @@ class Daemon(GObject.GObject, TimerManager):
             self.emit("connection-error", Daemon.OLD_VERSION,
                       msg, Exception(msg))
             return
-        if self._my_id != None:
+        if self._my_id is not None:
             device = self._get_device_data(self._my_id)
             if version != device["clientVersion"]:
                 device["clientVersion"] = version
@@ -725,7 +725,7 @@ class Daemon(GObject.GObject, TimerManager):
             # HTTP 404 may actually mean old daemon version
             version = get_header(
                 exception.headers, b"X-Syncthing-Version").decode("utf-8")
-            if version != None and not compare_version(version, MIN_VERSION):
+            if version is not None and not compare_version(version, MIN_VERSION):
                 self._epoch += 1
                 msg = "daemon is too old"
                 self.emit("connection-error", Daemon.OLD_VERSION,
@@ -1011,7 +1011,7 @@ class Daemon(GObject.GObject, TimerManager):
         Returns daemon version or "unknown" if daemon version is not yet
         known
         """
-        if self._my_id == None:
+        if self._my_id is None:
             return "unknown"
         device = self._get_device_data(self._my_id)
         if "clientVersion" in device:
@@ -1108,7 +1108,7 @@ class RESTRequest(Gio.SocketClient):
         """ Called after TCP connection is initiated """
         try:
             self._connection = self.connect_to_service_finish(results)
-            if self._connection == None:
+            if self._connection is None:
                 raise Exception("Unknown error")
         except Exception as e:
             log.exception(e)
@@ -1154,7 +1154,7 @@ class RESTRequest(Gio.SocketClient):
                         self._CSRFtoken = c.strip(b" \r\n")
                         log.verbose("Got new cookie: %r", self._CSRFtoken)
                         break
-                if self._CSRFtoken != None:
+                if self._CSRFtoken is not None:
                     break
 
     def _format_request(self):
@@ -1176,7 +1176,7 @@ class RESTRequest(Gio.SocketClient):
     def _response(self, stream, results):
         try:
             response = stream.read_bytes_finish(results)
-            if response == None:
+            if response is None:
                 raise Exception("No data received")
         except Exception as e:
             self._connection.close(None)
@@ -1198,10 +1198,10 @@ class RESTRequest(Gio.SocketClient):
         if self._parent._CSRFtoken is None and self._parent._api_key is None:
             # I wanna cookie!
             self._parse_csrf(response.split(b"\n"))
-            if self._parent._CSRFtoken == None:
+            if self._parent._CSRFtoken is None:
                 # This is pretty fatal and likely to fail again,
                 # so request is not repeated automatically
-                if self._error_callback == None:
+                if self._error_callback is None:
                     log.error(
                         "Request '%s' failed: Error: failed to get CSRF cookie from daemon", self._command)
                 else:
@@ -1387,7 +1387,7 @@ class EventPollLoop(RESTRequest):
             return RESTRequest._response(self, stream, results)
         try:
             response = stream.read_bytes_finish(results)
-            if response == None:
+            if response is None:
                 raise Exception("No data received")
         except Exception as e:
             return self._error(e)
@@ -1412,7 +1412,7 @@ class EventPollLoop(RESTRequest):
     def _chunk(self, stream, results):
         try:
             response = stream.read_bytes_finish(results)
-            if response == None:
+            if response is None:
                 raise Exception("nothing")
         except Exception as e:
             return self._error(e)

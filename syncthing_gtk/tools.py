@@ -102,11 +102,11 @@ def check_device_id(nid):
         for i in range(0, 4):
             p = nid[i*14:((i+1)*14)-1]
             try:
-                l = luhn_b32generate(p)
+                ll = luhn_b32generate(p)
             except Exception as e:
                 log.exception(e)
                 return False
-            g = "%s%s" % (p, l)
+            g = "%s%s" % (p, ll)
             if g != nid[i*14:(i+1)*14]:
                 return False
         return True

@@ -127,7 +127,7 @@ class NautiluslikeExtension(GObject.GObject):
         Returns None otherwise.
         """
         repo = self._get_parent_repo_path(path)
-        if repo != None:
+        if repo is not None:
             return self.repos[repo]
         return None
 
@@ -148,7 +148,7 @@ class NautiluslikeExtension(GObject.GObject):
         # Get repo
         repo = self._get_parent_repo_path(fullpath)
         path = fullpath.replace(repo, "")
-        if repo == None:
+        if repo is None:
             return False
         # Check if the path is known already
         if path in self.ignore_paths[repo]:
@@ -179,7 +179,7 @@ class NautiluslikeExtension(GObject.GObject):
     def _mark_ignored_path(self, fullpath):
         # Get repo path
         repo = self._get_parent_repo_path(fullpath)
-        if repo == None:
+        if repo is None:
             return False
         path = fullpath.replace(repo, "")
         log.debug("Set ignore-path %s for repo %s" % (path, repo))
@@ -188,7 +188,7 @@ class NautiluslikeExtension(GObject.GObject):
     def _mark_unignored_path(self, fullpath):
         # Get repo path
         repo = self._get_parent_repo_path(fullpath)
-        if repo == None:
+        if repo is None:
             return False
         path = fullpath.replace(repo, "")
         log.debug("Remove ignore-path %s for repo %s" % (path, repo))
