@@ -70,23 +70,26 @@ def parse_ignore_pattern(line):
         line = line.lower()
         flags = flags | re.IGNORECASE
     line = re.escape(line)
-    if line.startswith("\/"):
+    if line.startswith(r"\/"):
         line = line
-    elif line.startswith("\*\*\/"):
+    elif line.startswith(r"\*\*\/"):
         line = '.*?/' + line[3:]
     else:
         line = '.*?/' + line
-    line = line.replace('\*\*', '.*?').replace('\*', '[^/]*?').replace(
-        '\?', '[^/]').replace('\[', '[').replace('\]', ']')
+    line = line.replace(r'\*\*', '.*?')
+    line = line.replace(r'\*', '[^/]*?')
+    line = line.replace(r'\?', '[^/]')
+    line = line.replace(r'\[', '[')
+    line = line.replace(r'\]', ']')
     line = line + '$'
     excludeParents = []
     if isExclude:
         # Split pattern by path sep to find parent folder matches
-        pathParts = line.split("\/")
+        pathParts = line.split(r"\/")
         pathPart = ""
         for pathFolder in pathParts:
             if not pathFolder == "":
-                pathPart = pathPart + "\/" + pathFolder + "$"
+                pathPart = pathPart + r"\/" + pathFolder + "$"
                 excludeParents.append(re.compile(pathPart, flags))
     compiled_regex = {'compiled': re.compile(
         line, flags), 'exclude': isExclude, 'excludeParents': excludeParents}

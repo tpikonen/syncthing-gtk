@@ -905,7 +905,7 @@ class App(Gtk.Application, TimerManager):
             # This one needs special treatment because remote port changes
             # every time when this is reported.
             id = re.search("to ([-0-9A-Za-z]+)", message)
-            version = re.search("protocol \(([^\)]+)\)", message)
+            version = re.search(r"protocol \(([^\)]+)\)", message)
             if not id or not version:
                 # Invalid format
                 return

@@ -17,7 +17,7 @@ log = logging.getLogger("FolderEditor")
 
 COLOR_NEW = "#A0A0A0"
 # Regexp to generate folder id from filename
-RE_GEN_ID = re.compile("([a-zA-Z0-9\-\._]{1,64}).*")
+RE_GEN_ID = re.compile(r"([a-zA-Z0-9\-\._]{1,64}).*")
 VALUES = ["vlabel", "vid", "vpath", "vreadOnly", "vreceiveOnly", "vignorePerms",
           "vdevices", "vversioning", "vkeepVersions", "vrescanIntervalS", "vmaxAge",
           "vversionsPath", "vfsWatcherEnabled", "vcleanoutDays", "vcommand", "vorder",
