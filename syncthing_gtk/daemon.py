@@ -327,7 +327,7 @@ class Daemon(GObject.GObject, TimerManager):
         self._my_id = None
         self._read_config()
 
-    ### Internal stuff ###
+    # Internal stuff
 
     def _read_config(self):
         # Read syncthing config to get connection url
@@ -452,7 +452,7 @@ class Daemon(GObject.GObject, TimerManager):
             self.emit("folder-added", rid, r)
             self._request_folder_data(rid)
 
-    ### Callbacks ###
+    # Callbacks
 
     def _syncthing_cb_shutdown(self, data, reason):
         """ Callback for 'shutdown' AND 'restart' request """
@@ -858,7 +858,7 @@ class Daemon(GObject.GObject, TimerManager):
         else:
             log.warning("Unhandled event type: %s", e)
 
-    ### External stuff ###
+    # External stuff
 
     def reconnect(self):
         """

@@ -420,7 +420,7 @@ class InfoBox(Gtk.Container):
         return (self.color == (r, g, b, a))
 
     def set_dark_color(self, r, g, b, a):
-        """ 
+        """
         Overrides background color, inverts icon colors and darkens some borders
         """
         # Override background
