@@ -412,6 +412,6 @@ if HAS_DESKTOP_NOTIFY:
 
 """
 Events emitted when file is changed on remote node:
-	ItemStarted repo_name, path, time
-	LocalIndexUpdated (item-updated) repo_name, path, time
+    ItemStarted repo_name, path, time
+    LocalIndexUpdated (item-updated) repo_name, path, time
 """

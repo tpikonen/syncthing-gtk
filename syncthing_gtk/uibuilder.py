@@ -6,10 +6,10 @@ Wrapper around GTKBuilder. Allows using conditional (<IF>) tags in
 glade files.
 
 Usage:
-	- Crete instance
-	- Enable conditions (enable_condition call)
-	- Call add_from_file or add_from_string method
-	- Continue as usual
+    - Crete instance
+    - Enable conditions (enable_condition call)
+    - Call add_from_file or add_from_string method
+    - Continue as usual
 """
 
 

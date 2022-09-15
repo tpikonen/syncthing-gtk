@@ -28,38 +28,38 @@ class StDownloader(GObject.GObject):
     ST_URL = "https://api.github.com/repos/syncthing/syncthing/releases"
 
     """
-	Downloads, extracts and saves syncthing daemon to given location.
+    Downloads, extracts and saves syncthing daemon to given location.
 
-	# Create instance
-	sd = StDownloader("/tmp/syncthing.x86", "linux-386")
-	# Connect to singals
-	sd.connect(...
-	...
-	...
-	# Determine version
-	sd.get_version()
+    # Create instance
+    sd = StDownloader("/tmp/syncthing.x86", "linux-386")
+    # Connect to singals
+    sd.connect(...
+    ...
+    ...
+    # Determine version
+    sd.get_version()
 
-	# (somewhere in 'version' signal callback)
-	sd.download()
+    # (somewhere in 'version' signal callback)
+    sd.download()
 
-	Signals:
-		version(version)
-			emitted after current syncthing version is determined.
-			Version argument is string.
-		download-starting()
-			emitted when download of package is starting
-		download-progress(progress)
-			emitted during download. Progress goes from 0.0 to 1.0
-		download-finished()
-			emitted when download is finished
-		extraction-progress(progress)
-			emitted during extraction. Progress goes from 0.0 to 1.0
-		extraction-finished()
-			emitted when extraction is finished and daemon binary saved
-			(i.e. when all work is done)
-		error(exception, message):
-			Emited on error. Either exception or message can be None
-	"""
+    Signals:
+        version(version)
+            emitted after current syncthing version is determined.
+            Version argument is string.
+        download-starting()
+            emitted when download of package is starting
+        download-progress(progress)
+            emitted during download. Progress goes from 0.0 to 1.0
+        download-finished()
+            emitted when download is finished
+        extraction-progress(progress)
+            emitted during extraction. Progress goes from 0.0 to 1.0
+        extraction-finished()
+            emitted when extraction is finished and daemon binary saved
+            (i.e. when all work is done)
+        error(exception, message):
+            Emited on error. Either exception or message can be None
+    """
 
     __gsignals__ = {
         "version": (GObject.SIGNAL_RUN_FIRST, None, (object,)),

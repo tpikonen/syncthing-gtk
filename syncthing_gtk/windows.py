@@ -75,22 +75,22 @@ def override_menu_borders():
     """ Loads custom CSS to create borders around popup menus """
     style_provider = Gtk.CssProvider()
     style_provider.load_from_data("""
-		.menu {
-			border-image: linear-gradient(to top,
-										  alpha(@borders, 0.80),
-										  alpha(@borders, 0.60) 33%,
-										  alpha(@borders, 0.50) 66%,
-										  alpha(@borders, 0.15)) 2 2 2 2/ 2px 2px 2px 2px;
-		}
+        .menu {
+            border-image: linear-gradient(to top,
+                                          alpha(@borders, 0.80),
+                                          alpha(@borders, 0.60) 33%,
+                                          alpha(@borders, 0.50) 66%,
+                                          alpha(@borders, 0.15)) 2 2 2 2/ 2px 2px 2px 2px;
+        }
 
-		.menubar .menu {
-			border-image: linear-gradient(to top,
-										  alpha(@borders, 0.80),
-										  alpha(@borders, 0.60) 33%,
-										  alpha(@borders, 0.50) 66%,
-										  transparent 99%) 2 2 2 2/ 2px 2px 2px 2px;
-		}
-		""")
+        .menubar .menu {
+            border-image: linear-gradient(to top,
+                                          alpha(@borders, 0.80),
+                                          alpha(@borders, 0.60) 33%,
+                                          alpha(@borders, 0.50) 66%,
+                                          transparent 99%) 2 2 2 2/ 2px 2px 2px 2px;
+        }
+        """)
     Gtk.StyleContext.add_provider_for_screen(
         Gdk.Screen.get_default(),
         style_provider,
