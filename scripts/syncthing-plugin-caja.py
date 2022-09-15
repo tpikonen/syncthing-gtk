@@ -4,6 +4,7 @@ Caja plugin for Syncthing-GTK
 See syncthing_gtk/nautilusplugin.py for more info
 """
 
+from syncthing_gtk.nautilusplugin import NautiluslikeExtension
 from gi.repository import Caja
 
 # Setting this environment variable will prevent __init__ in
@@ -13,8 +14,9 @@ from gi.repository import Caja
 import os
 os.environ["GTK2APP"] = "1"
 
-from syncthing_gtk.nautilusplugin import NautiluslikeExtension
 
 NautiluslikeExtension.set_plugin_module(Caja)
+
+
 class CajaNautilus(NautiluslikeExtension, Caja.InfoProvider, Caja.MenuProvider):
-	pass
+    pass
