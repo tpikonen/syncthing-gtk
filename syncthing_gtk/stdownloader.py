@@ -152,7 +152,7 @@ class StDownloader(GObject.GObject):
                 sha = tag["object"]["sha"]
                 if name.startswith("v"):
                     commits_by_version[name] = sha
-                if not sha in tags_by_commit:
+                if sha not in tags_by_commit:
                     tags_by_commit[sha] = []
                 tags_by_commit[sha].append(name)
 

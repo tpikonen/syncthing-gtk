@@ -47,7 +47,7 @@ def enable_localization():
         loc = locale.getdefaultlocale()[0]
     except Exception:
         pass
-    if not 'LANGUAGE' in os.environ:
+    if 'LANGUAGE' not in os.environ:
         os.environ['LANGUAGE'] = loc
 
 

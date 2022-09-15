@@ -485,7 +485,7 @@ class InfoBox(Gtk.Container):
         if icon.endswith(".svg"):
             # Icon is svg file
             key = icon if self.dark_color is None else icon + "-dark"
-            if not key in svg_cache:
+            if key not in svg_cache:
                 if not self.dark_color is None:
                     # Recolor svg for dark theme
                     with open(os.path.join(self.app.iconpath, icon), "r") as f:

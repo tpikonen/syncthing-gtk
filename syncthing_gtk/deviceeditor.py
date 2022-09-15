@@ -138,7 +138,7 @@ class DeviceEditorDialog(EditorDialog):
                 found = False
                 for n in r["devices"]:
                     if n["deviceID"] == nid:
-                        if not rid in folders or not folders[rid]:
+                        if rid not in folders or not folders[rid]:
                             # Remove this /<device> key (unshare folder with device)
                             r["devices"].remove(n)
                             break

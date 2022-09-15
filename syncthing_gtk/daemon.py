@@ -399,7 +399,7 @@ class Daemon(GObject.GObject, TimerManager):
 
     def _get_device_data(self, nid):
         """ Returns dict with device data, creating it if needed """
-        if not nid in self._device_data:
+        if nid not in self._device_data:
             self._device_data[nid] = {
                 "inBytesTotal": 0, "outBytesTotal": 0,
                 "inbps": 0, "outbps": 0, "clientVersion": "?",
@@ -433,7 +433,7 @@ class Daemon(GObject.GObject, TimerManager):
             rid = r["id"]
             for n in r["devices"]:
                 nid = n["deviceID"]
-                if not nid in device_folders:
+                if nid not in device_folders:
                     device_folders[nid] = []
                 device_folders[nid].append(rid)
 
@@ -508,7 +508,7 @@ class Daemon(GObject.GObject, TimerManager):
                 cons[id]["outbps"] = 0.0
             # Store updated device_data
             for key in cons[id]:
-                if not key in ('clientVersion', 'connected'):		# Don't want copy those
+                if key not in ('clientVersion', 'connected'):		# Don't want copy those
                     if cons[id][key] != "":							# Happens for 'total'
                         device_data[key] = cons[id][key]
 
@@ -545,7 +545,7 @@ class Daemon(GObject.GObject, TimerManager):
                 t = parsetime(data[nid]["lastSeen"])
                 if t < NEVER:
                     t = None
-                if not nid in self._last_seen or self._last_seen[nid] != t:
+                if nid not in self._last_seen or self._last_seen[nid] != t:
                     self._last_seen[nid] = t
                     self.emit('last-seen-changed', nid, t)
 
@@ -568,7 +568,7 @@ class Daemon(GObject.GObject, TimerManager):
                 self.emit("device-sync-finished", nid)
         else:
             # Syncing
-            if not nid in self._syncing_devices:
+            if nid not in self._syncing_devices:
                 self._syncing_devices.add(nid)
                 self.emit("device-sync-started", nid, sync)
             else:
@@ -667,7 +667,7 @@ class Daemon(GObject.GObject, TimerManager):
     def _syncthing_cb_folder_data(self, data, rid):
         state = data['state']
         if state in ('error', 'stopped'):
-            if not rid in self._stopped_folders:
+            if rid not in self._stopped_folders:
                 self._stopped_folders.add(rid)
                 reason = data["invalid"] or data["error"]
                 self.emit("folder-stopped", rid, reason)
@@ -765,22 +765,22 @@ class Daemon(GObject.GObject, TimerManager):
         """
         if state != "syncing" and rid in self._syncing_folders:
             self._syncing_folders.discard(rid)
-            if not rid in self._stopped_folders:
+            if rid not in self._stopped_folders:
                 self.emit("folder-sync-finished", rid)
         if state != "scanning" and rid in self._scanning_folders:
             self._scanning_folders.discard(rid)
-            if not rid in self._stopped_folders:
+            if rid not in self._stopped_folders:
                 self.emit("folder-scan-finished", rid)
         if state == "syncing":
-            if not rid in self._stopped_folders:
+            if rid not in self._stopped_folders:
                 if rid in self._syncing_folders:
                     self.emit("folder-sync-progress", rid, progress)
                 else:
                     self._syncing_folders.add(rid)
                     self.emit("folder-sync-started", rid)
         elif state == "scanning":
-            if not rid in self._stopped_folders:
-                if not rid in self._scanning_folders:
+            if rid not in self._stopped_folders:
+                if rid not in self._scanning_folders:
                     self._scanning_folders.add(rid)
                     self.emit("folder-scan-started", rid)
 

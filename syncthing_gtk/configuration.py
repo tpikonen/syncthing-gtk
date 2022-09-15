@@ -159,7 +159,7 @@ class _Configuration(object):
         Returns True if value is set and type match.
         Auto-converts objects serialized as string back to objects
         """
-        if not key in self.values:
+        if key not in self.values:
             return False
         # Handle special cases
         if type(self.values[key]) == str and tp == str:

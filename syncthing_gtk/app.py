@@ -234,7 +234,7 @@ class App(Gtk.Application, TimerManager):
                 sys.stdout.write("Arguments:\n")
                 for o in self.arguments:
                     # Don't display hidden and unsupported parameters
-                    if not o.long_name in ("force-update", "quit"):
+                    if o.long_name not in ("force-update", "quit"):
                         sys.stdout.write("  -%s, --%s %s\n" % (
                             chr(o.short_name),
                             o.long_name.ljust(10),
@@ -1943,7 +1943,7 @@ class App(Gtk.Application, TimerManager):
             (speed in [0] + SPEED_LIMIT_VALUES
              and menuitem.get_active())
             or
-            (not speed in [0] + SPEED_LIMIT_VALUES
+            (speed not in [0] + SPEED_LIMIT_VALUES
              and not menuitem.get_active())
         )
         if checked_by_user:

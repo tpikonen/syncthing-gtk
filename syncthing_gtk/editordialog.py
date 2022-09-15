@@ -89,7 +89,7 @@ class EditorDialog(GObject.GObject):
         Returns glade file ID for specified widget or None, if widget
         is not known.
         """
-        if not w in self.widget_to_id:
+        if w not in self.widget_to_id:
             return None
         return self.widget_to_id[w]
 
@@ -184,7 +184,7 @@ class EditorDialog(GObject.GObject):
         if len(keys) == 0:
             return  # Done
         key, rest = keys[0], keys[1:]
-        if not key in parent:
+        if key not in parent:
             parent[key] = {}
         if parent[key] in ("", None):
             parent[key] = {}
@@ -199,7 +199,7 @@ class EditorDialog(GObject.GObject):
         if value_id in self.original_labels:
             # Already done
             return
-        if not value_id in self.MESSAGES:
+        if value_id not in self.MESSAGES:
             # Nothing to show
             return
         self.original_labels[value_id] = self[wid].get_label()
