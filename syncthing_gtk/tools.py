@@ -134,7 +134,7 @@ def ints(s):
     """ Works as int(), but returns 0 for None, False and empty string """
     if s is None:
         return 0
-    if s == False:
+    if s is False:
         return 0
     if hasattr(s, "__len__"):
         if len(s) == 0:
