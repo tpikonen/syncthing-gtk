@@ -110,7 +110,7 @@ class UISettingsDialog(EditorDialog):
         status = []
         for widget_id in FM_DATA:
             so_file, package, plugin, location, name = FM_DATA[widget_id]
-            if not get_fm_source_path(plugin) is None:
+            if get_fm_source_path(plugin) is not None:
                 if library_exists(so_file):
                     self[widget_id].set_sensitive(True)
                     self[widget_id].set_active(
@@ -222,7 +222,7 @@ class UISettingsDialog(EditorDialog):
                 # Should be enabled. Check if script is in place and create it if not
                 source = get_fm_source_path(plugin)
                 target = get_fm_target_path(plugin, location)
-                if not source is None and not os.path.exists(target):
+                if source is not None and not os.path.exists(target):
                     try:
                         # Create directory first
                         os.makedirs(os.path.dirname(target))
@@ -259,7 +259,7 @@ class UISettingsDialog(EditorDialog):
         self.close()
         # Recreate Notifications object if needed
         if HAS_DESKTOP_NOTIFY:
-            if not self.app.notifications is None:
+            if self.app.notifications is not None:
                 self.app.notifications.kill()
                 self.app.notifications = None
             if self.app.config["notification_for_update"] or self.app.config["notification_for_error"]:

@@ -163,7 +163,7 @@ class DaemonProcess(GObject.GObject):
 
     def terminate(self):
         """ Terminates process (sends SIGTERM) """
-        if not self._proc is None:
+        if self._proc is not None:
             if IS_WINDOWS:
                 # Windows
                 self._proc.terminate()
@@ -180,7 +180,7 @@ class DaemonProcess(GObject.GObject):
 
     def kill(self):
         """ Kills process (sends SIGTERM) """
-        if not self._proc is None:
+        if self._proc is not None:
             if IS_WINDOWS:
                 # Windows - can't actually kill
                 self._proc.terminate()

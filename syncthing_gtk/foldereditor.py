@@ -150,7 +150,7 @@ class FolderEditorDialog(EditorDialog):
                         self.is_new = False
                     except IndexError:
                         pass
-                if not self.path is None:
+                if self.path is not None:
                     self.set_value("path", self.path)
                     self["vpath"].set_sensitive(False)
                 self.set_value("versioning", "simple")

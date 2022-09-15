@@ -132,7 +132,7 @@ class WinPopenReader:
             self._buffer += data
         # If there is read_async callback and buffer has some data,
         # send them right away
-        if not self._waits_for_read is None and len(self._buffer) > 0:
+        if self._waits_for_read is not None and len(self._buffer) > 0:
             r = WinPopenReader.Results(self._buffer)
             self._buffer = ""
             callback, data = self._waits_for_read
@@ -213,7 +213,7 @@ def WinConfiguration():
                     value = 0xFFFF + (-value)
                 winreg.SetValueEx(r, name, 0, winreg.REG_DWORD, int(value))
             elif tp in (list, tuple):
-                if not value is None:  # None is default value for window_position
+                if value is not None:  # None is default value for window_position
                     winreg.SetValueEx(r, "%s_size" %
                                       (name,), 0, winreg.REG_DWORD, len(value))
                     for i in range(0, len(value)):

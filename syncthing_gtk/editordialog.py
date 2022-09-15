@@ -51,7 +51,7 @@ class EditorDialog(GObject.GObject):
         # Move entire dialog content to ScrolledWindow if screen height
         # is too small
         if Gdk.Screen.get_default().height() < 900:
-            if not self["editor-content"] is None:
+            if self["editor-content"] is not None:
                 parent = self["editor-content"].get_parent()
                 if isinstance(parent, Gtk.Notebook):
                     order, labels = [], {}
@@ -105,12 +105,12 @@ class EditorDialog(GObject.GObject):
                     return c
             if isinstance(c, Gtk.Container):
                 r = self.find_widget_by_id(id, c)
-                if not r is None:
+                if r is not None:
                     return r
         return None
 
     def show(self, parent=None):
-        if not parent is None:
+        if parent is not None:
             self["editor"].set_transient_for(parent)
         self["editor"].set_modal(True)
         self["editor"].show_all()
@@ -118,7 +118,7 @@ class EditorDialog(GObject.GObject):
     def present(self, values=[]):
         self["editor"].present()
         for v in values:
-            if not self[v] is None and self[v].get_sensitive():
+            if self[v] is not None and self[v].get_sensitive():
                 self[v].grab_focus()
                 return
 
@@ -241,7 +241,7 @@ class EditorDialog(GObject.GObject):
         for key in values:
             widget = self.find_widget_by_id(key)
             self.widget_to_id[widget] = key
-            if not key is None:
+            if key is not None:
                 try:
                     self.display_value(key, widget)
                 except ValueNotFoundError:
@@ -274,7 +274,7 @@ class EditorDialog(GObject.GObject):
         else:
             log.warning("display_value: %s class cannot handle widget %s, key %s",
                         self.__class__.__name__, w, key)
-            if not w is None:
+            if w is not None:
                 w.set_sensitive(False)
 
     def ui_value_changed(self, w, *a):
@@ -391,7 +391,7 @@ class EditorDialog(GObject.GObject):
         """
         for key in values:
             widget = self.find_widget_by_id(key)
-            if not key is None:
+            if key is not None:
                 try:
                     self.store_value(key, widget)
                 except ValueNotFoundError:

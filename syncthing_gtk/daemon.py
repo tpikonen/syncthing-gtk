@@ -489,7 +489,7 @@ class Daemon(GObject.GObject, TimerManager):
         cons = data["connections"]
         # Use my own device for totals, if it is already known
         # It it is not known, just skip totals for now
-        if not self._my_id is None:
+        if self._my_id is not None:
             cons[self._my_id] = {**cons[self._my_id], **data["total"]}
 
         for id in cons:
@@ -879,7 +879,7 @@ class Daemon(GObject.GObject, TimerManager):
         """
         def reload_config_cb(config):
             self._parse_dev_n_folders(config)
-            if not callback is None:
+            if callback is not None:
                 callback()
             RESTRequest(self, "system/config/insync",
                         self._syncthing_cb_config_in_sync).start()
@@ -943,7 +943,7 @@ class Daemon(GObject.GObject, TimerManager):
         error_callback(exception) on failure
         """
         def r_filter(data, *a):
-            if "ignore" in data and not data["ignore"] is None:
+            if "ignore" in data and data["ignore"] is not None:
                 callback("\n".join(data["ignore"]).strip(" \t\n"), *a)
             else:
                 callback("", *a)
@@ -1128,7 +1128,7 @@ class RESTRequest(Gio.SocketClient):
                 "GET / HTTP/1.0",
                 "Host: %s" % self._parent._address,
                 (("X-API-Key: %s" % self._parent._api_key)
-                 if not self._parent._api_key is None else "X-nothing: x"),
+                 if self._parent._api_key is not None else "X-nothing: x"),
                 "Connection: close",
                 "",
                 "",
@@ -1168,7 +1168,7 @@ class RESTRequest(Gio.SocketClient):
             (("X-%s" % self._parent._CSRFtoken.replace("=", ": "))
              if self._parent._CSRFtoken else "X-nothing: x"),
             (("X-API-Key: %s" % self._parent._api_key)
-             if not self._parent._api_key is None else "X-nothing2: x"),
+             if self._parent._api_key is not None else "X-nothing2: x"),
             "Connection: close",
             "", ""
         ]).encode("utf-8")
@@ -1323,7 +1323,7 @@ class RESTPOSTRequest(RESTRequest):
             (("X-%s" % self._parent._CSRFtoken.replace("=", ": "))
              if self._parent._CSRFtoken else "X-nothing: x"),
             (("X-API-Key: %s" % self._parent._api_key)
-             if not self._parent._api_key is None else "X-nothing2: x"),
+             if self._parent._api_key is not None else "X-nothing2: x"),
             "Content-Length: %s" % len(json_str),
             "Content-Type: application/json",
             "Connection: close",
@@ -1360,7 +1360,7 @@ class EventPollLoop(RESTRequest):
             (("X-%s" % self._parent._CSRFtoken.replace("=", ": "))
              if self._parent._CSRFtoken else "X-nothing: x"),
             (("X-API-Key: %s" % self._parent._api_key)
-             if not self._parent._api_key is None else "X-nothing2: x"),
+             if self._parent._api_key is not None else "X-nothing2: x"),
             "Cache-Control: no-cache",
             "Connection: keep-alive",
             "Pragma: no-cache",
@@ -1434,7 +1434,7 @@ class EventPollLoop(RESTRequest):
             "GET /rest/events?since=%s HTTP/1.1" % (self._last_event_id,),
             "Host: %s" % self._parent._address,
             (("X-API-Key: %s" % self._parent._api_key)
-             if not self._parent._api_key is None else "X-nothing: x"),
+             if self._parent._api_key is not None else "X-nothing: x"),
             "",
             "",
         ]).encode("utf-8")

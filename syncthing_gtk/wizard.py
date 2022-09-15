@@ -40,7 +40,7 @@ class Wizard(Gtk.Assistant):
                  iconpath="/usr/share/syncthing-gtk/icons", config=None):
         # Init
         Gtk.Assistant.__init__(self)
-        if not config is None:
+        if config is not None:
             self.config = config
         else:
             self.config = Configuration()
@@ -131,7 +131,7 @@ class Wizard(Gtk.Assistant):
                 return w
             if isinstance(w, Gtk.Container):
                 r = self.find_widget(compare_fn, w)
-                if not r is None:
+                if r is not None:
                     return r
         return None
 
@@ -502,8 +502,8 @@ class DownloadSTPage(Page):
         only observe message, cry and quit program.
         """
         message = "%s\n%s" % (
-            str(error) if not error is None else "",
-            message if not message is None else ""
+            str(error) if error is not None else "",
+            message if message is not None else ""
         )
         self.parent.error(self,
                           _("Failed to download Syncthing daemon package."),
