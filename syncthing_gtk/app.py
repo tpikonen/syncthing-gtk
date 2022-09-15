@@ -919,7 +919,7 @@ class App(Gtk.Application, TimerManager):
                 device.show_value("version")
                 device["version"] = version
 
-            message = _("Connecting to <b>%s</b> failed; the remote device speaks an older version of the protocol (%s) not compatible with this version") % (
+            message = _("Connecting to <b>%s</b> failed; the remote device speaks an older version of the protocol (%s) not compatible with this version") % (  # noqa: E501
                 display_id, version)
         while RE_IP_PORT.search(message):
             # Strip any IP:port pairs in message to only IP. Port usually
