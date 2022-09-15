@@ -237,7 +237,7 @@ class IntroPage(Page):
                            if isinstance(b, Gtk.Button) and b is not self.dialog.quit_button]
             # order is 'apply, next, back, finish, cancel'
             next_label = all_buttons[1].get_label().replace("_", "")
-        except:
+        except Exception:
             pass
         # TODO: Temporal solution, remove later
         changed_line = _(

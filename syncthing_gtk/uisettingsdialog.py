@@ -335,7 +335,7 @@ def is_file_or_symlink(path):
     try:
         os.readlink(path)
         return True
-    except:
+    except Exception:
         pass
     return False
 

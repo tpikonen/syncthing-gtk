@@ -51,7 +51,7 @@ class AboutDialog(object):
                 import syncthing_gtk
                 if syncthing_gtk.__file__.startswith(pkg_resources.require("syncthing-gtk")[0].location):
                     app_ver = pkg_resources.require("syncthing-gtk")[0].version
-        except:
+        except Exception:
             # pkg_resources is not available or __version__ file missing
             # There is no reason to crash on this.
             pass
@@ -59,7 +59,7 @@ class AboutDialog(object):
         try:
             daemon_ver = app.daemon.get_version()
             app_ver = "%s (Daemon %s)" % (app_ver, daemon_ver)
-        except:
+        except Exception:
             # App is None or daemon version is not yet known
             pass
         # Display versions in UI
