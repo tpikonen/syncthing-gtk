@@ -7,7 +7,6 @@ Syncthing-GTK - Windows related stuff.
 from syncthing_gtk.tools import get_config_dir
 from gi.repository import GLib, Gtk, Gdk
 import os
-import sys
 import logging
 import codecs
 import msvcrt

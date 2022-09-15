@@ -1073,7 +1073,6 @@ class Daemon(GObject.GObject, TimerManager):
         """
         No longer needed.
         """
-        pass
 
     def set_refresh_interval(self, i):
         """ Sets interval used mainly by event querying timer """
