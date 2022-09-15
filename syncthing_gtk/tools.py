@@ -6,7 +6,6 @@ Various stuff that I don't care to fit anywhere else.
 """
 
 
-from typing import Dict, Any
 from gettext import gettext as _
 from base64 import b32decode
 from datetime import tzinfo, timedelta
@@ -142,16 +141,16 @@ def ints(s):
     return int(s)
 
 
-def get_header(headers: Dict[bytes, Any], key: bytes):
+def get_header(headers, key):
     """
     Returns value of single header parsed from headers array or None
     if header is not found.
     """
-    if not key.endswith(b":"):
-        key = b"%s:" % (key,)
+    if not key.endswith(":"):
+        key = "%s:" % (key,)
     for h in headers:
         if h.startswith(key):
-            return h.split(b" ", 1)[-1]
+            return h.split(" ", 1)[-1]
     return None
 
 

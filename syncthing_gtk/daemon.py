@@ -589,8 +589,7 @@ class Daemon(GObject.GObject, TimerManager):
                 log.warning("My ID has been changed on the fly")
             self._my_id = data["myID"]
             self.emit('my-id-changed', self._my_id)
-            version = get_header(data[HTTP_HEADERS],
-                                 b"X-Syncthing-Version").decode("utf-8")
+            version = get_header(data[HTTP_HEADERS], "X-Syncthing-Version")
             if version:
                 self._syncthing_cb_version_known(version)
             else:
@@ -723,8 +722,7 @@ class Daemon(GObject.GObject, TimerManager):
             return
         elif isinstance(exception, HTTPCode):
             # HTTP 404 may actually mean old daemon version
-            version = get_header(
-                exception.headers, b"X-Syncthing-Version").decode("utf-8")
+            version = get_header(exception.headers, "X-Syncthing-Version")
             if version is not None and not compare_version(version, MIN_VERSION):
                 self._epoch += 1
                 msg = "daemon is too old"
@@ -1149,11 +1147,11 @@ class RESTRequest(Gio.SocketClient):
 
     def _parse_csrf(self, response):
         for d in response:
-            if d.startswith(b"Set-Cookie:"):
-                for c in d.split(b":", 1)[1].split(b";"):
-                    if c.strip().startswith(b"CSRF-Token-"):
-                        self._CSRFtoken = c.strip(b" \r\n")
-                        log.verbose("Got new cookie: %r", self._CSRFtoken)
+            if d.startswith("Set-Cookie:"):
+                for c in d.split(":", 1)[1].split(";"):
+                    if c.strip().startswith("CSRF-Token-"):
+                        self._CSRFtoken = c.strip(" \r\n")
+                        log.verbose("Got new cookie: %s", self._CSRFtoken)
                         break
                 if self._CSRFtoken is not None:
                     break
@@ -1189,16 +1187,16 @@ class RESTRequest(Gio.SocketClient):
             log.verbose("Discarded old response for %s", self._command)
             return
         # Repeat read_bytes_async until entire response is read into buffer
-        self._buffer.append(response.get_data())
+        self._buffer.append(response.get_data().decode('utf-8'))
         if response.get_size() > 0:
             self._connection.get_input_stream().read_bytes_async(
                 65536, 1, None, self._response)
             return
         self._connection.close(None)
-        response, self._buffer = (b"".join(self._buffer)), []
+        response, self._buffer = ("".join(self._buffer)), []
         if self._parent._CSRFtoken is None and self._parent._api_key is None:
             # I wanna cookie!
-            self._parse_csrf(response.split(b"\n"))
+            self._parse_csrf(response.split("\n"))
             if self._parent._CSRFtoken is None:
                 # This is pretty fatal and likely to fail again,
                 # so request is not repeated automatically
@@ -1228,8 +1226,8 @@ class RESTRequest(Gio.SocketClient):
 
     def _split_headers(self, buffer):
         try:
-            headers, response = buffer.split(b"\r\n\r\n", 1)
-            headers = headers.decode('utf-8', errors='ignore').split("\r\n")
+            headers, response = buffer.split("\r\n\r\n", 1)
+            headers = headers.split("\r\n")
             code = int(headers[0].split(" ")[1])
             if code == 401:
                 self._error(HTTPAuthException(buffer))
@@ -1381,7 +1379,7 @@ class EventPollLoop(RESTRequest):
 
     def start(self):
         RESTRequest.start(self)
-        self._buffer = b""
+        self._buffer = ""
 
     def _response(self, stream, results):
         if self._parent._CSRFtoken is None and self._parent._api_key is None:
@@ -1396,13 +1394,13 @@ class EventPollLoop(RESTRequest):
             self._connection.close(None)
             return
 
-        buffer = response.get_data()
+        buffer = response.get_data().decode('utf-8')
         headers, response = self._split_headers(buffer)
         if headers is None:
             return
         headers = {x: y.strip() for (x, y) in [h.split(
-            b":", 1) for h in headers if b":" in h]}
-        if b"Transfer-Encoding" not in headers or headers[b"Transfer-Encoding"] != b"chunked":
+            ":", 1) for h in headers if ":" in h]}
+        if "Transfer-Encoding" not in headers or headers["Transfer-Encoding"] != "chunked":
             # Something just went horribly wrong
             self._error(InvalidHTTPResponse(buffer))
             return
@@ -1420,7 +1418,7 @@ class EventPollLoop(RESTRequest):
         if self._epoch != self._parent._epoch:
             self._connection.close(None)
             return
-        data = response.get_data()
+        data = response.get_data().decode('utf-8')
         if len(data) == 0:
             # Connection broken
             self._connection.close(None)
@@ -1451,7 +1449,7 @@ class EventPollLoop(RESTRequest):
             try:
                 # Try to decode chunk. May raise exception if only very few bytes
                 # have been read so far
-                size_str, rest = self._buffer.split(b"\r\n", 1)
+                size_str, rest = self._buffer.split("\r\n", 1)
                 self._chunk_size = int(size_str, 16)
                 self._buffer = rest
                 if self._chunk_size < 1:
@@ -1468,8 +1466,7 @@ class EventPollLoop(RESTRequest):
                 self._chunk_size - retrieved, 1, None, self._chunk)
             return
 
-        response, self._buffer = self._buffer[0:
-                                              retrieved], self._buffer[retrieved:]
+        response, self._buffer = self._buffer[0:retrieved], self._buffer[retrieved:]
         try:
             events = json.loads(response)
         except Exception:
