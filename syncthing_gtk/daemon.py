@@ -1117,7 +1117,7 @@ class RESTRequest(Gio.SocketClient):
             if self._connection is None:
                 raise Exception("Unknown error")
         except Exception as e:
-            log.exception(e)
+            # log.exception(e)
             if hasattr(e, "domain") and e.domain == "g-tls-error-quark":
                 e = TLSUnsupportedException(e.message)
             self._error(e)
