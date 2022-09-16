@@ -123,7 +123,7 @@ class App(Gtk.Application, TimerManager):
         # User setting is not visible under Unity/Gnome
         self.use_headerbar = (
             not IS_UNITY and (not self.config["use_old_header"] or IS_GNOME)
-            and (Gtk.get_major_version(), Gtk.get_minor_version()) >= (3, 10))
+            and os.environ.get('GTK_CSD', '1') != '0')
 
         self.daemon = None  # Created by setup_connection method
         # If enabled (by -o argument), daemon output is captured and printed
